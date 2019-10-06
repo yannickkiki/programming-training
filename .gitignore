@@ -1,2 +1,4 @@
 *.pdf
 draft/
+*.in
+*.out
