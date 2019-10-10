@@ -5,8 +5,8 @@ from math import ceil
 primes = [2]
 
 def sp(n):
-    if n==1 or isprime(n):
-        return n
+    original_n = n
+    if n==1: return n
     divisor_found = False
     for prime in primes:
         if n%prime==0:
@@ -19,6 +19,7 @@ def sp(n):
         if n%new_prime==0:
             n = n//new_prime
             divisor_found = True
+    if n==1: return original_n
     return n
     
 with open('h.in', 'r') as f:
