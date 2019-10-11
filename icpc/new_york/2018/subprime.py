@@ -1,27 +1,37 @@
-from sympy import isprime, nextprime
 from collections import defaultdict
 from math import ceil
 
+NPG = 10000 
 primes = [2]
+is_prime = defaultdict(lambda: True)
+
+def extend_primes(previous_max):
+    new_max = previous_max+NPG
+    for number in range(2, new_max+1):
+        if is_prime[number]:
+            start = number * ceil(previous_max/number)
+            for numberr in range(start, new_max+1, number):
+                is_prime[numberr] = False
+            if number>previous_max:
+                primes.append(number)
+    return new_max
+            
 
 def sp(n):
     original_n = n
     if n==1: return n
-    divisor_found = False
-    for prime in primes:
-        if n%prime==0:
-            n = n//prime
-            divisor_found = True
-            break
+    divisor_found, current_prime_idx, max_number_checked = False, 0, 2
     while not divisor_found:
-        new_prime = nextprime(primes[-1])
-        primes.append(new_prime)
+        while current_prime_idx>=len(primes):
+            max_number_checked = extend_primes(max_number_checked)
+        new_prime = primes[current_prime_idx]
         if n%new_prime==0:
             n = n//new_prime
             divisor_found = True
+        current_prime_idx += 1
     if n==1: return original_n
     return n
-    
+  
 with open('h.in', 'r') as f:
     t = int(f.readline().strip())
     for i in range(t):
