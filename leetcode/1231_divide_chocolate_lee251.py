@@ -3,7 +3,6 @@ class Solution:
         left, right = 1, sum(A) // (K + 1)
         while left < right:
             mid = (left + right + 1) // 2
-            print(mid)
             cur = cuts = 0
             for a in A:
                 cur += a
