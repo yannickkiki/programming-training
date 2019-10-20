@@ -1,34 +1,62 @@
-nums1 = [1, 3, 4, 6]
-nums2 = [2, 5, 7, 8]
+from math import ceil
 
-nums1 = [1, 3]
-nums2 = [2]
+def find_median(nums1, nums2):
+    total_len = len(nums1)+len(nums2)
+    n = ceil(total_len/2)
+    
+    if len(nums1)>len(nums2):
+        nums1, nums2 = nums2, nums1
+        
+    median = 0
+    
+    if len(nums1)==0:
+        median = nums2[total_len//2]
+        if total_len%2==0:
+            median = (nums2[-1+total_len//2]+median)/2
+        return median
 
-total_len = len(nums1)+len(nums2)
-idx1, idx2, median, end = 0, 0, 0, 1 + total_len//2
-
-for idx in range(end):
-    inferior_is_1 = True
-
-    if idx1 == len(nums1):
-        idx2 += 1
-        inferior_is_1 = False
-    elif idx2 == len(nums2):
-        idx1 += 1
-    else:
-        if nums1[idx1] < nums2[idx2]:
-            idx1 += 1
+    n1, n2 = 0, n
+    if nums2[n2-1] <= nums1[n1]:
+        median = nums2[n2-1]
+        if total_len%2==0:
+            if n2 < len(nums2):
+                median = (min(nums1[n1], nums2[n2]) + median)/2
+            else:
+                median = (nums1[n1] + median)/2
+        return median
+    
+    n1 = len(nums1)
+    n2 = n-n1
+    if nums1[n1-1] <= nums2[n2]:
+        if n2>=1:
+            median = max(nums1[n1-1], nums2[n2-1])
         else:
-            idx2 += 1
-            inferior_is_1 = False
+            median = nums1[n1-1]
+        if total_len%2 == 0:
+            median = (nums2[n2]+median)/2
+        return median
+    
+    median, is_max_1, n1_min, n1_max = 0, True, 0, len(nums1)
+    
+    while True:
+        n1 = (n1_min+n1_max)//2
+        n2 = n-n1
+        is_max_1 = nums1[n1-1] >= nums2[n2-1]
+        if (nums2[n2-1] <= nums1[n1-1] <= nums2[n2]) or (nums1[n1-1] <= nums2[n2-1] <= nums1[n1]):
+            median = max(nums1[n1-1], nums2[n2-1])
+            if total_len%2==0:
+                median = (min(nums1[n1], nums2[n2])+median)/2
+            return median
+        else:
+            if is_max_1:
+                n1_max = n1
+            else:
+                n1_min = n1
 
-    if total_len % 2 == 0:
-        if idx == -1+(total_len//2):
-            median += nums1[-1+idx1] if inferior_is_1 else nums2[-1+idx2]
-        if idx == total_len//2:
-            median += nums1[-1+idx1] if inferior_is_1 else nums2[-1+idx2]
-            median /= 2
-            
-
-    if total_len % 2 == 1 and idx == total_len//2:
-        median = nums1[-1+idx1] if inferior_is_1 else nums2[-1+idx2]
+if __name__=='__main__':
+    # nums1 = [4, 20, 32, 50, 55, 61, 62]
+    # nums2 = [1, 15, 22, 30, 70]
+    
+    nums2 = [0, 0]
+    nums1 = [0, 0]
+    median = find_median(nums1, nums2)
