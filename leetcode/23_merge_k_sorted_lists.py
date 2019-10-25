@@ -1,3 +1,5 @@
+from queue import PriorityQueue
+
 MAX = float('inf')
 
 
@@ -25,21 +27,18 @@ class Solution:
             return
 
         root = node = ListNode(None)
-        while True:
-            min_, min_idx, comp = MAX, None, 0
-            for idx, l in enumerate(lists):
-                if not l:
-                    comp += 1
-                    continue
-                if l.val < min_:
-                    min_idx = idx
-                    min_ = l.val
-            if comp == len(lists):
-                break
-            new_node = ListNode(min_)
+        q = PriorityQueue()
+        for idx, l in enumerate(lists):
+            if l:
+                q.put((l.val, idx))
+        while not q.empty():
+            min_val, min_idx = q.get()
+            new_node = ListNode(min_val)
             node.next = new_node
             node = new_node
             lists[min_idx] = lists[min_idx].next
+            if lists[min_idx]:
+                q.put((lists[min_idx].val, min_idx))
         return root.next
 
 
