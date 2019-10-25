@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 MAX = float('inf')
 
 
@@ -13,12 +11,12 @@ def build_linked_list(l):
     if not l:
         return
     n = len(l)
-    node = ListNode(l[n-1])
-    for idx in range(n-2, -1, -1):
-        old_node = deepcopy(node)
-        node = ListNode(l[idx])
-        node.next = old_node
-    return node
+    root = node = ListNode(None)
+    for idx in range(0, n):
+        new_node = ListNode(l[idx])
+        node.next = new_node
+        node = new_node
+    return root.next
 
 
 class Solution:
@@ -26,7 +24,7 @@ class Solution:
         if not lists:
             return
 
-        result = list()
+        root = node = ListNode(None)
         while True:
             min_, min_idx, comp = MAX, None, 0
             for idx, l in enumerate(lists):
@@ -38,9 +36,11 @@ class Solution:
                     min_ = l.val
             if comp == len(lists):
                 break
-            result.append(lists[min_idx].val)
+            new_node = ListNode(min_)
+            node.next = new_node
+            node = new_node
             lists[min_idx] = lists[min_idx].next
-        return build_linked_list(result)
+        return root.next
 
 
 if __name__ == '__main__':
@@ -50,5 +50,4 @@ if __name__ == '__main__':
         build_linked_list([1, 3, 4]),
         build_linked_list([2, 6])
     ]
-#    lists = [build_linked_list([]), build_linked_list([1, 4, 5])]
     result = s.mergeKLists(lists)
