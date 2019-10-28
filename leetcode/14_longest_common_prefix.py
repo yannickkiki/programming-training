@@ -23,3 +23,5 @@ if __name__ == '__main__':
     assert s.longestCommonPrefix(["flower","flow","flight"]) == "fl"
     assert s.longestCommonPrefix(["dog","racecar","car"]) == ""
     assert s.longestCommonPrefix(["flowere","fo","flowere"]) == "f"
+    assert s.longestCommonPrefix(["fl","fl","fl"]) == "fl"
+    

@@ -4,24 +4,37 @@ class Solution:
             return -1
         
         n = len(nums)
-        left, first_item, right, last_item = 0, nums[0], n-1, nums[n-1]
+        
+        if n == 1:
+            return 0 if target == nums[0] else -1
+        
+        left, right = 0, n-1
         while left < right:
+            if right-left == 1:
+                if nums[left]==target:
+                    return left
+                elif nums[right]==target:
+                    return right
+                else:
+                    return -1  
             idx = (left+right)//2
-            print(left, right, idx)
-            if nums[idx] > first_item:
-                if nums[idx] > target > first_item:
+            if nums[idx] > nums[left]:
+                if nums[idx] >= target >= nums[left]:
                     right = idx
                 else:
-                    left = idx+1
+                    left = idx
             else:
-                if nums[idx] < target < last_item:
-                    left = idx+1
+                if nums[idx] <= target <= nums[right]:
+                    left = idx
                 else:
                     right = idx
-        return left if target == nums[left] else -1
                     
 
 if __name__ == '__main__':
     s = Solution()
-    result = s.search([4,5,6,7,8,0,1,2,3], 1)
-        
+    assert s.search([4, 5, 6, 7, 0, 1, 2], 0) == 4
+    assert s.search([4, 5, 6, 7, 0, 1, 2], 3) == -1
+    assert s.search([4, 5, 6, 7, 0, 1, 2, 3], 3) == 7
+    assert s.search([4, 5, 6, 7, 0, 1, 2, 3], 8) == -1
+    assert s.search([1], 1) == 0
+    assert s.search([1, 3], 2) == -1
