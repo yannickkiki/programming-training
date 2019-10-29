@@ -5,10 +5,9 @@ def is_subfolder(subfolder, folder):
 class Solution:
     def removeSubfolders(self, folders):
         folders.sort()
-        n, result, supfolder_idx, i = len(folders), folders[:1], 0, 1
-        # print(folders, result)
+        n, result = len(folders), folders[:1]
+        supfolder_idx, i = 0, 1
         while i < n:
-            # print(i)
             if not is_subfolder(folders[i], folders[supfolder_idx]):
                 result.append(folders[i])
                 supfolder_idx = i

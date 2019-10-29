@@ -1,7 +1,5 @@
 from queue import PriorityQueue
 
-MAX = float('inf')
-
 
 class ListNode:
     def __init__(self, x):
