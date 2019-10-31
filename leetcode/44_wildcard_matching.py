@@ -1,36 +1,30 @@
-from collections import defaultdict
-
-
-class Solution:
+def squash_stars(pattern):
+    result = ""
+    is_prec_star = False
+    for c in pattern:
+        if is_prec_star and c=='*':
+            continue
+        result += c
+        is_prec_star = c=='*'
+    return result
+    
+class Solution: 
     def isMatch(self, s, p):
         def is_match(s_i, p_i):
-            answer = is_tuple_match[(s_i, p_i)]
-            if answer:
-                return answer
-            
             if p_i == len(p):
-                answer = s_i==len(s)
-                is_tuple_match [(s_i, p_i)] = answer
-                return answer
+                return s_i==len(s)
             
             if p[p_i] == "?":
                 return is_match(s_i+1, p_i+1)
             elif p[p_i] == "*":
                 for s_idx in range(s_i, 1+len(s)):
                     if is_match(s_idx, p_i+1):
-                        is_tuple_match [(s_idx, p_i+1)] = True
                         return True
-                is_tuple_match [(s_i, p_i)] = False
                 return False
             else:
-                if s_i<len(s) and p[p_i] == s[s_i]:
-                    answer = is_match(s_i+1, p_i+1)
-                    is_tuple_match [(s_i+1, p_i+1)] = answer
-                    return answer
-                is_tuple_match [(s_i, p_i)] = False
-                return False
+                return s_i<len(s) and p[p_i] == s[s_i] and is_match(s_i+1, p_i+1)
         
-        is_tuple_match = defaultdict(lambda: None)
+        p = squash_stars(p)
         return is_match(0, 0)
     
 
@@ -43,5 +37,6 @@ if __name__ == '__main__':
     assert s.isMatch("acdcb","a*c?b") == False
     assert s.isMatch("","*") == True
     assert s.isMatch("aaabbbaabab","a*******b") == True
-    assert s.isMatch("aaabbbaabaaaaababaabaaabbabbbbbbbbaabababbabbbaaaaba","a****b") == False
-    # assert s.isMatch("aaabbbaabaaaaababaabaaabbabbbbbbbbaabababbabbbaaaaba","a*******b") == False
+    assert s.isMatch("aaabbbaabaaaaababaabaaabbabbbbbbbbaabababbabbbaaaaba","a*b") == False
+    assert s.isMatch("aaabbbaabaaaaababaabaaabbabbbbbbbbaabababbabbbaaaaba","a*******b") == False
+    assert s.isMatch("babbbbaabababaabbababaababaabbaabababbaaababbababaaaaaabbabaaaabababbabbababbbaaaababbbabbbbbbbbbbaabbb", "b**bb**a**bba*b**a*bbb**aba***babbb*aa****aabb*bbb***a") == False
