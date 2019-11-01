@@ -11,20 +11,27 @@ def squash_stars(pattern):
 class Solution: 
     def isMatch(self, s, p):
         def is_match(s_i, p_i):
-            if p_i == len(p):
-                return s_i==len(s)
-            
-            if p[p_i] == "?":
-                return is_match(s_i+1, p_i+1)
-            elif p[p_i] == "*":
-                for s_idx in range(s_i, 1+len(s)):
-                    if is_match(s_idx, p_i+1):
-                        return True
-                return False
-            else:
-                return s_i<len(s) and p[p_i] == s[s_i] and is_match(s_i+1, p_i+1)
+            if (s_i, p_i) not in memo:
+                ans = None
+                
+                if p_i == len(p):
+                    ans = s_i==len(s)
+                elif p[p_i] == "?":
+                    ans = is_match(s_i+1, p_i+1)
+                elif p[p_i] == "*":
+                    ans = False
+                    for s_idx in range(s_i, 1+len(s)):
+                        if is_match(s_idx, p_i+1):
+                            ans = True
+                            break
+                else:
+                    ans = s_i<len(s) and p[p_i] == s[s_i] and is_match(s_i+1, p_i+1)
+                
+                memo[s_i, p_i] = ans
+            return memo[s_i, p_i]
         
         p = squash_stars(p)
+        memo = dict()
         return is_match(0, 0)
     
 
