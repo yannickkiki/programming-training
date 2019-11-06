@@ -32,10 +32,10 @@ class Solution:
     
 if __name__ == '__main__':
     s = Solution()
-    result1 = s.isMatch("mississippi", "mis*is*p*.") # False
-    result2 = s.isMatch("ab", ".*c") # False
-    result3 = s.isMatch("aa", "a") #False
-    result4 = s.isMatch("a", "ab*") #True
-    result5 = s.isMatch("aa", "a*") #True
-    result6 = s.isMatch("ab", ".*") # True
-    result7 = s.isMatch("aab", "c*a*b") # True
+    assert s.isMatch("mississippi", "mis*is*p*.") == False
+    assert s.isMatch("ab", ".*c") == False
+    assert s.isMatch("aa", "a") == False
+    assert s.isMatch("a", "ab*") == True
+    assert s.isMatch("aa", "a*") == True
+    assert s.isMatch("ab", ".*") == True
+    assert s.isMatch("aab", "c*a*b") == True

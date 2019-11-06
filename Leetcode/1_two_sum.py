@@ -11,6 +11,4 @@ def twoSum(nums, target):
 
 
 if __name__ == '__main__':
-    numbers = [2, 4, 7, 6, 7]
-    target = 9
-    r = twoSum(numbers, target)
+    assert twoSum([2, 4, 7, 6, 7], 9) == [2, 0]

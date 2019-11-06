@@ -13,5 +13,5 @@ class Solution:
             
 if __name__ == '__main__':
     s = Solution()
-    result1 = s.maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]) # 49
-    result2 = s.maxArea([2, 3, 4, 5, 18, 17, 6]) # 17
+    assert s.maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]) == 49
+    assert s.maxArea([2, 3, 4, 5, 18, 17, 6]) == 17

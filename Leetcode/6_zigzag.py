@@ -18,4 +18,5 @@ class Solution:
 
 if __name__ == '__main__':
     s = Solution()
-    result = s.convert("PAYPALISHIRING", 1)
+    assert s.convert("PAYPALISHIRING", 1) == "PAYPALISHIRING"
+    assert s.convert("PAYPALISHIRING", 4) == "PINALSIGYAHRPI"

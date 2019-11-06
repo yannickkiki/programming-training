@@ -33,4 +33,4 @@ class Solution:
     
 if __name__ == '__main__':
     s = Solution()
-    result = s.myAtoi("- 2")
+    assert s.myAtoi("- 2") == 0

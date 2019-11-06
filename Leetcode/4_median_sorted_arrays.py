@@ -54,9 +54,4 @@ def find_median(nums1, nums2):
                 n1_min = n1
 
 if __name__=='__main__':
-    # nums1 = [4, 20, 32, 50, 55, 61, 62]
-    # nums2 = [1, 15, 22, 30, 70]
-    
-    nums2 = [0, 0]
-    nums1 = [0, 0]
-    median = find_median(nums1, nums2)
+    assert find_median([4, 20, 32, 50, 55, 61, 62], [1, 15, 22, 30, 70]) == 31

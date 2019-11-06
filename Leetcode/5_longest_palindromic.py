@@ -24,4 +24,4 @@ class Solution:
 
 if __name__ == '__main__':
     s = Solution()
-    result = s.longestPalindrome("aaxxab")
+    assert s.longestPalindrome("aaxxab") == "axxa"

@@ -1,6 +1,3 @@
-# Exercice 3 - Longuest substring without repeating characters
-
-
 def lengthOfLongestSubstring(s):
     result, current_substring_size, last_cut_idx = 0, 0, 0
     char_last_idx = dict()
@@ -15,6 +12,5 @@ def lengthOfLongestSubstring(s):
         result = max(result, current_substring_size)
     return result
         
-
-s = "abbaabcabba"
-result = lengthOfLongestSubstring(s)
+if __name__ == "__main__":
+    assert lengthOfLongestSubstring("abbaabcabba") == 3

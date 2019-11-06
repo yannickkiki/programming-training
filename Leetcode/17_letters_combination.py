@@ -30,4 +30,5 @@ class Solution:
 
 if __name__ == '__main__':
     s = Solution()
-    result = s.letterCombinations("23")
+    assert s.letterCombinations("23") == ['ad', 'ae', 'af', 'bd', 'be', 'bf',
+                               'cd', 'ce', 'cf']
