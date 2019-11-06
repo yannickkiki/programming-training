@@ -10,6 +10,7 @@ def twoSum(nums, target):
         number_idxs[number] = l[:]
 
 
-numbers = [2, 4, 7, 6, 7]
-target = 9
-r = twoSum(numbers, target)
+if __name__ == '__main__':
+    numbers = [2, 4, 7, 6, 7]
+    target = 9
+    r = twoSum(numbers, target)

@@ -1,24 +1,8 @@
-class ListNode:
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+from . import utils
 
-
-def build_linked_list(l):
-    if not l:
-        return
-    n = len(l)
-    root = node = ListNode(None)
-    for idx in range(0, n):
-        new_node = ListNode(l[idx])
-        node.next = new_node
-        node = new_node
-    return root.next
-
- 
 class Solution:
     def removeNthFromEnd(self, head, n):
-        root = ListNode(None)
+        root = utils.ListNode(None)
         first = root.next = head
         second = root
         
@@ -38,4 +22,4 @@ class Solution:
 
 if __name__ == '__main__':
     s = Solution()
-    result = s.removeNthFromEnd(build_linked_list([1, 2, 3, 4]), 2)
+    result = s.removeNthFromEnd(utils.build_linked_list([1, 2, 3, 4]), 2)
