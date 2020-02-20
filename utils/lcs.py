@@ -35,10 +35,23 @@ def lcs(A, B):
     
     result, A_idxs = list(), list()       
     f(nA, nB, A_idxs)
-    print(result) #list containing lists of A idxs for reconstruct subsequence
-    return dp[nA][nB]
+    
+    if not result:
+        return ""
+    
+    subsequences = list()
+    for idxs in result:
+        subsequence = ""
+        for idx in idxs:
+            subsequence = A[idx] + subsequence
+        subsequences.append(subsequence)
+    subsequences = list(set(subsequences))
+    return subsequences
 
 if __name__ == "__main__":
+    """
     assert lcs("ac", "ac") == 2
     assert lcs("abcde", "acex") == 3
     assert lcs("cs", "sc") == 1
+    """
+    result = lcs("artificiel", "algorithme")
