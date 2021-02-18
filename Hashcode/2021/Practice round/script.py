@@ -43,7 +43,8 @@ class Submission:
 
 
 if __name__ == "__main__":
-    for dataset in ["a", "b", "c", "d", "e"]:
+    datasets = ["a", "b", "c", "d", "e"]
+    for dataset in datasets[:]:
         pizzas = list()
 
         with open(f"{dataset}.in", "r") as f:
@@ -58,6 +59,7 @@ if __name__ == "__main__":
 
             for n_teams_of_x_tuples_perm in itertools.permutations(n_teams_of_x_tuples, 3):
                 deliveries = list()
+                pizzas_remaining = pizzas[:]
                 n_pizzas_delivered = 0
 
                 for team_size, n_teams in n_teams_of_x_tuples_perm:
@@ -65,7 +67,17 @@ if __name__ == "__main__":
                         if n_pizzas_delivered + team_size > n_pizzas:
                             break
 
-                        pizzas_to_deliver = pizzas[n_pizzas_delivered:n_pizzas_delivered+team_size]
+                        # pizzas_to_deliver = pizzas[n_pizzas_delivered:n_pizzas_delivered+team_size]
+                        pizzas_to_deliver = []
+                        ingredients = []
+                        n_ingredients_combo_max, idx_of_max = -1, -1
+                        for idx, pizza in enumerate(pizzas_remaining[:10]):
+                            n_ingredients_combo = len(list(set(ingredients + pizza.ingredients)))
+                            if n_ingredients_combo > n_ingredients_combo_max:
+                                n_ingredients_combo_max, idx_of_max = n_ingredients_combo, idx
+                        pizza_selected = pizzas_remaining.pop(idx_of_max)
+                        pizzas_to_deliver.append(pizza_selected)
+                        ids.append(pizza_selected.id)
 
                         ids, ingredients = [], []
                         for pizza in pizzas_to_deliver:
