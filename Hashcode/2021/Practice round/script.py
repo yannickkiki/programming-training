@@ -1,60 +1,80 @@
-class Pizza:
-    def __init__(self, ingredients: set, id):
-        self.ingredients = ingredients
-        self.id = id
+import itertools
 
-    @property
-    def n_ingredients(self):
-        return len(self.ingredients)
+
+class Pizza:
+    def __init__(self, ingredients, id):
+        self.ingredients = ingredients
+        self.n_ingredients = len(self.ingredients)
+        self.id = id
 
 
 class Delivery:
-    def __init__(self, pizzas_ids: list):
+    def __init__(self, pizzas_ids, ingredients):
         self.pizzas_ids = pizzas_ids
+        self.ingredients = ingredients
+        self.n_ingredients = len(self.ingredients)
 
-    def get_output(self):
-        team_size = len(self.pizzas_ids)
-        return str(team_size) + " " + " ".join(self.pizzas_ids) + "\n"
+
+class Submission:
+    def __init__(self, deliveries):
+        self.deliveries = deliveries
+
+    def create_submission_file(self, filename):
+        score = 0
+        result = f"{len(self.deliveries)}\n"
+        for delivery in deliveries:
+            team_size = len(delivery.pizzas_ids)
+            result += str(team_size) + " " + " ".join(delivery.pizzas_ids) + "\n"
+            score += delivery.n_ingredients ** 2
+
+        if filename == "a.out" and score <= 74:
+            return
+        if filename == "b.out" and score <= 7338:
+            return
+        if filename == "c.out" and score <= 687305267:
+            return
+        if filename == "d.out" and score <= 5887484:
+            return
+        if filename == "e.out" and score <= 8348932:
+            return
+
+        with open(f"{filename}_{score}", "w") as f:
+            f.write(result)
 
 
 if __name__ == "__main__":
-    pizzas = list()
+    for dataset in ["a", "b", "c", "d", "e"]:
+        pizzas = list()
 
-    with open("e.in", "r") as f:
-        n_pizzas, n_teams_of_2, n_teams_of_3, n_teams_of_4 = map(int, f.readline().split())
-        for idx in range(n_pizzas):
-            n_ingredients, *ingredients = f.readline().split()
-            pizzas.append(Pizza(ingredients=set(ingredients), id=idx))
+        with open(f"{dataset}.in", "r") as f:
+            n_pizzas, n_teams_of_2, n_teams_of_3, n_teams_of_4 = map(int, f.readline().split())
+            for idx in range(n_pizzas):
+                n_ingredients, *ingredients = f.readline().split()
+                pizzas.append(Pizza(ingredients=ingredients, id=idx))
+            n_teams_of_x_tuples = [(4, n_teams_of_4), (3, n_teams_of_3), (2, n_teams_of_2)]
 
-    pizzas.sort(key=lambda pizza: pizza.n_ingredients, reverse=True)
+        for is_reverse in [True, False]:
+            pizzas.sort(key=lambda pizza: pizza.n_ingredients, reverse=is_reverse)
 
-    deliveries = list()
-    n_pizzas_delivered = 0
-    for _ in range(n_teams_of_2):
-        if n_pizzas_delivered + 2 > n_pizzas:
-            break
-        deliveries.append(Delivery(
-            pizzas_ids=[str(pizza.id) for pizza in pizzas[n_pizzas_delivered:n_pizzas_delivered+2]]
-        ))
-        n_pizzas_delivered += 2
+            for n_teams_of_x_tuples_perm in itertools.permutations(n_teams_of_x_tuples, 3):
+                deliveries = list()
+                n_pizzas_delivered = 0
 
-    for _ in range(n_teams_of_3):
-        if n_pizzas_delivered + 3 > n_pizzas:
-            break
-        deliveries.append(Delivery(
-            pizzas_ids=[str(pizza.id) for pizza in pizzas[n_pizzas_delivered:n_pizzas_delivered+3]]
-        ))
-        n_pizzas_delivered += 3
+                for team_size, n_teams in n_teams_of_x_tuples_perm:
+                    for _ in range(n_teams):
+                        if n_pizzas_delivered + team_size > n_pizzas:
+                            break
 
-    for _ in range(n_teams_of_4):
-        if n_pizzas_delivered + 4 > n_pizzas:
-            break
-        deliveries.append(Delivery(
-            pizzas_ids=[str(pizza.id) for pizza in pizzas[n_pizzas_delivered:n_pizzas_delivered+4]]
-        ))
-        n_pizzas_delivered += 4
+                        pizzas_to_deliver = pizzas[n_pizzas_delivered:n_pizzas_delivered+team_size]
 
-    with open("e.out", "w") as f:
-        f.write(f"{len(deliveries)}\n")
-        for delivery in deliveries:
-            f.write(delivery.get_output())
+                        ids, ingredients = [], []
+                        for pizza in pizzas_to_deliver:
+                            ids.append(str(pizza.id))
+                            ingredients += pizza.ingredients
+                        ingredients = list(set(ingredients))
+
+                        deliveries.append(Delivery(pizzas_ids=ids, ingredients=ingredients))
+                        n_pizzas_delivered += team_size
+
+                submission = Submission(deliveries)
+                submission.create_submission_file(filename=f"{dataset}.out")
