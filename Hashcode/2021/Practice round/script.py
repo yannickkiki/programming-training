@@ -29,13 +29,13 @@ class Submission:
 
         if filename == "a.out" and score <= 74:
             return
-        if filename == "b.out" and score <= 7338:
+        if filename == "b.out" and score <= 12569:
             return
-        if filename == "c.out" and score <= 687305267:
+        if filename == "c.out" and score <= 705459730:
             return
-        if filename == "d.out" and score <= 5887484:
+        if filename == "d.out" and score <= 7746468:
             return
-        if filename == "e.out" and score <= 8348932:
+        if filename == "e.out" and score <= 10672764:
             return
 
         with open(f"{filename}_{score}", "w") as f:
@@ -44,7 +44,8 @@ class Submission:
 
 if __name__ == "__main__":
     datasets = ["a", "b", "c", "d", "e"]
-    for dataset in datasets[:]:
+    for dataset in datasets:
+        print(dataset)
         pizzas = list()
 
         with open(f"{dataset}.in", "r") as f:
@@ -67,25 +68,19 @@ if __name__ == "__main__":
                         if n_pizzas_delivered + team_size > n_pizzas:
                             break
 
-                        # pizzas_to_deliver = pizzas[n_pizzas_delivered:n_pizzas_delivered+team_size]
-                        pizzas_to_deliver = []
-                        ingredients = []
-                        n_ingredients_combo_max, idx_of_max = -1, -1
-                        for idx, pizza in enumerate(pizzas_remaining[:10]):
-                            n_ingredients_combo = len(list(set(ingredients + pizza.ingredients)))
-                            if n_ingredients_combo > n_ingredients_combo_max:
-                                n_ingredients_combo_max, idx_of_max = n_ingredients_combo, idx
-                        pizza_selected = pizzas_remaining.pop(idx_of_max)
-                        pizzas_to_deliver.append(pizza_selected)
-                        ids.append(pizza_selected.id)
+                        pizzas_to_deliver_ids, ingredients = [], []
 
-                        ids, ingredients = [], []
-                        for pizza in pizzas_to_deliver:
-                            ids.append(str(pizza.id))
-                            ingredients += pizza.ingredients
-                        ingredients = list(set(ingredients))
+                        for __ in range(team_size):
+                            n_ingredients_combo_max, idx_of_max = -1, -1
+                            for idx, pizza in enumerate(pizzas_remaining[:500]):
+                                n_ingredients_combo = len(list(set(ingredients + pizza.ingredients)))
+                                if n_ingredients_combo > n_ingredients_combo_max:
+                                    n_ingredients_combo_max, idx_of_max = n_ingredients_combo, idx
+                            pizza_selected = pizzas_remaining.pop(idx_of_max)
+                            pizzas_to_deliver_ids.append(str(pizza_selected.id))
+                            ingredients = list(set(ingredients + pizza_selected.ingredients))
 
-                        deliveries.append(Delivery(pizzas_ids=ids, ingredients=ingredients))
+                        deliveries.append(Delivery(pizzas_ids=pizzas_to_deliver_ids, ingredients=ingredients))
                         n_pizzas_delivered += team_size
 
                 submission = Submission(deliveries)
