@@ -29,13 +29,13 @@ class Submission:
 
         if filename == "a.out" and score <= 74:
             return
-        if filename == "b.out" and score <= 12569:
+        if filename == "b.out" and score <= 13479:
             return
-        if filename == "c.out" and score <= 705459730:
+        if filename == "c.out" and score <= 711934156:
             return
-        if filename == "d.out" and score <= 7746468:
+        if filename == "d.out" and score <= 783292:
             return
-        if filename == "e.out" and score <= 10672764:
+        if filename == "e.out" and score <= 10687761:
             return
 
         with open(f"{filename}_{score}", "w") as f:
