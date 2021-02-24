@@ -22,7 +22,7 @@ class Submission:
     def create_submission_file(self, filename):
         score = 0
         result = f"{len(self.deliveries)}\n"
-        for delivery in deliveries:
+        for delivery in self.deliveries:
             team_size = len(delivery.pizzas_ids)
             result += str(team_size) + " " + " ".join(delivery.pizzas_ids) + "\n"
             score += delivery.n_ingredients ** 2
