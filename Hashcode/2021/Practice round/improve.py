@@ -39,7 +39,7 @@ class Submission:
 
 
 def run():
-    input_filename, output_filename, new_output_filename = "b.in", "b.out_13479", "b.out"
+    input_filename, output_filename, new_output_filename = "b.in", "b.out", "b.out_new"
 
     pizzas_all = []
     with open(input_filename, "r") as f:
@@ -57,15 +57,16 @@ def run():
 
     time_start = time.time()
 
-    for i in range(n_deliveries):
+    for i in range(10):
         for j in range(n_deliveries):
             if i == j:
                 continue
 
             pizzas_ids_ij = deliveries[i].pizzas_ids + deliveries[j].pizzas_ids
 
-            for new_pizzas_ids_i in itertools.combinations(pizzas_ids_ij, deliveries[i].team_size):
-                new_pizzas_ids_j = set(pizzas_ids_ij) - set(new_pizzas_ids_i)
+            for pizzas_ids_ij_perm in itertools.permutations(pizzas_ids_ij):
+                new_pizzas_ids_i = pizzas_ids_ij_perm[:deliveries[i].team_size]
+                new_pizzas_ids_j = pizzas_ids_ij_perm[deliveries[i].team_size:]
                 new_delivery_i = Delivery(pizzas=[pizzas_all[idx] for idx in new_pizzas_ids_i])
                 new_delivery_j = Delivery(pizzas=[pizzas_all[idx] for idx in new_pizzas_ids_j])
                 current_score_ij = deliveries[i].n_ingredients ** 2 + deliveries[j].n_ingredients ** 2
